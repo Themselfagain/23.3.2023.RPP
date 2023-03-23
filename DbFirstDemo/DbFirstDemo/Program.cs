@@ -19,6 +19,26 @@ namespace DbFirstDemo
             //var result = GetEmployeesFromSalesAndMarketing(context);
             //Console.WriteLine(result);
             AddNewProject(context);
+            AddTown(context);
+            AddEmployeeWithProject(context);
+        }
+
+        private static void AddEmployeeWithProject(SoftUniContext context)
+        {
+            var employee = new Employee { FirstName = "Ani", LastName = "Ivanova", JobTitle = "Designer", HireDate = DateTime.UtcNow, Salary = 2000, DepartmentId = 2 };
+            context.Employees.Add(employee);
+            employee.EmployeesProjects.Add(new EmployeesProject { Project = new Project { Name = "TTT", StartDate = DateTime.UtcNow } });
+            context.SaveChanges();
+        }
+
+        private static void AddTown(SoftUniContext context)
+        {
+            var town = new Town()
+            {
+                Name = "Pernik"
+            };
+            context.Towns.Add(town);
+            context.SaveChanges();
         }
 
         private static void AddNewProject(SoftUniContext context)
