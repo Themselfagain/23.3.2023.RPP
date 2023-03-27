@@ -17,10 +17,24 @@ namespace DbFirstDemo
             //var result = GetEmployeesWithFirstNameStartWithN(context);
             //var result = GetFirstTenEmployeesWithDepartment(context);
             //var result = GetEmployeesFromSalesAndMarketing(context);
-            //Console.WriteLine(result);
-            AddNewProject(context);
-            AddTown(context);
-            AddEmployeeWithProject(context);
+            //AddNewProject(context);
+            //AddTown(context);
+            int id = int.Parse(Console.ReadLine());
+            var result = GetEmployeesFromProjectId(context,id);
+            //AddEmployeeWithProject(context);
+            Console.WriteLine(result);
+        }
+
+        private static object GetEmployeesFromProjectId(SoftUniContext context, int id)
+        {
+            var employeesProject = context.EmployeesProjects.OrderBy(x => x.ProjectId).Select(x => new { employeeName = x.Employee.FirstName + " " + x.Employee.LastName, projectId = x.ProjectId, projectName = x.Project.Name }).Where(x => x.projectId == id).ToList();
+            var sb = new StringBuilder();
+            foreach (var item in employeesProject)
+            {
+                sb.AppendLine($"{item.employeeName} - {item.projectName}");
+            }
+            var result = sb.ToString().TrimEnd();
+            return result;
         }
 
         private static void AddEmployeeWithProject(SoftUniContext context)
